@@ -1,0 +1,46 @@
+version: "3.8"
+
+x-env-db: &env_db
+  POSTGRES_USER: hacker_user
+  POSTGRES_PASSWORD: hacker_pass
+  POSTGRES_DB: hacker_db
+
+services:
+  postgres:
+    image: postgres:alpine
+    environment:
+      <<: *env_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - hacker
+
+  app:
+    build:
+      context: .
+    environment:
+      <<: *env_db
+      RAILS_ENV: development
+      POSTGRES_HOST: postgres
+      SECRET_KEY: 3bbd1b066a2349e51f198736788ca87e
+    command: >
+      sh -c "
+        bundle install;
+        bundle exec rails db:migrate;
+        bundle exec rails s -b 0.0.0.0 -p 3000;
+      "
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/opt/app
+    depends_on:
+      - postgres
+    networks:
+      - hacker
+
+volumes:
+  postgres-data:
+
+networks:
+  hacker:
+    driver: bridge
