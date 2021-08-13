@@ -7,10 +7,10 @@ class GetArticles
     articles = response['hits'] if response.code.eql?(200)
 
     articles.each do |article|
-      next if Article.exists?(object_id: article['objectID'])
+      next if Article.exists?(record_id: article['objectID'])
 
       record = Article.new(
-        object_id: article['objectID'],
+        record_id: article['objectID'],
         title: article['title'],
         url: article['url'],
         author: article['author'],
@@ -27,6 +27,8 @@ class GetArticles
 
       record.save
     end
+
+    "Se procesaron #{articles.length} registros!!!"
   end
 
 end

@@ -14,7 +14,10 @@ gem 'jbuilder', '~> 2.7'
 # Makes http fun again! Ain't no party like a httparty, because a httparty don't stop.
 gem 'httparty', '~> 0.18.1'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+gem 'redis', '~> 4.0'
+# Simple, efficient background processing for Ruby
+gem 'sidekiq'
+gem 'sidekiq-scheduler'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -31,6 +34,11 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry'
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+  gem 'factory_bot_rails'
+  gem 'simplecov', require: false
+  gem 'database_cleaner-active_record'
 end
 
 group :development do

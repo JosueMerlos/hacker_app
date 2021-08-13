@@ -1,4 +1,4 @@
-json.object_id article.object_id 
+json.record_id article.record_id
 json.title article.title 
 json.url article.url 
 json.author article.author 

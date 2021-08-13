@@ -1,0 +1,12 @@
+:pidfile: ./tmp/pids/sidekiq.pid
+:logfile: ./log/sidekiq.log
+
+tasks: &tasks
+  get_articles_job:
+    every: '1h'
+    class: GetArticlesJob
+    queue: default
+    description: 'Job para obtener los articulos'
+
+:schedule:
+  <<: *tasks

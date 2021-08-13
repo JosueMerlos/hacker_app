@@ -1,14 +1,20 @@
 class Api::V1::ArticlesController < ApplicationController
   def index
-    @articles = Article.order(publish_date: :desc).limit(5)
+    @articles = Article.search(index_params[:search])
+    from_date = Date.parse(index_params[:from_date]) rescue nil
+    @articles = @articles.from_date(from_date) if from_date.present?
+
+    render formats: :json
   end
 
   def show
-    @article = Article.find_by(object_id: show_params[:id])
+    @article = Article.find_by(record_id: show_params[:id])
+
+    render formats: :json
   end
 
   def update
-    @article = Article.find_by(object_id: update_params[:id])
+    @article = Article.find_by(record_id: update_params[:id])
     @article.attributes = update_params.except(:id).permit!
     
     if @article.save
@@ -19,7 +25,7 @@ class Api::V1::ArticlesController < ApplicationController
   end
 
   def destroy
-    @article = Article.find_by(object_id: destroy_params[:id])
+    @article = Article.find_by(record_id: destroy_params[:id])
     message = 'Item successfully removed'
     message = @article.errors.full_messages.join(', ') unless @article.destroy
     render json: { message: message }, status: :ok

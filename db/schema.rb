@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2021_08_11_040411) do
   enable_extension "plpgsql"
 
   create_table "articles", force: :cascade do |t|
-    t.bigint "object_id", null: false
+    t.bigint "record_id", null: false
     t.text "title"
     t.string "url"
     t.string "author"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 2021_08_11_040411) do
     t.string "tag", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["object_id"], name: "index_articles_on_object_id", unique: true
+    t.index ["record_id"], name: "index_articles_on_record_id", unique: true
   end
 
 end

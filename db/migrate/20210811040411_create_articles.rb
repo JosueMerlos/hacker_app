@@ -1,7 +1,7 @@
 class CreateArticles < ActiveRecord::Migration[6.1]
   def change
     create_table :articles do |t|
-      t.bigint :object_id, null: false
+      t.bigint :record_id, null: false
       t.text :title
       t.string :url
       t.string :author
@@ -17,6 +17,6 @@ class CreateArticles < ActiveRecord::Migration[6.1]
 
       t.timestamps
     end
-    add_index :articles, :object_id, unique: true
+    add_index :articles, :record_id, unique: true
   end
 end
