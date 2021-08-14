@@ -18,6 +18,7 @@ services:
   app:
     build:
       context: .
+    image: my_registry/hacker_app
     environment:
       <<: *env_db
       RAILS_ENV: development
@@ -26,7 +27,10 @@ services:
     command: >
       sh -c "
         bundle install;
+        sleep 15;
         bundle exec rails db:migrate;
+        bundle exec rails db:seed;
+        rm -rf ./tmp;
         bundle exec rails s -b 0.0.0.0 -p 3000;
       "
     ports:
@@ -38,9 +42,35 @@ services:
     networks:
       - hacker
 
+  redis:
+    image: redis
+    command: redis-server
+    networks:
+      - hacker
+
+  sidekiq:
+    image: my_registry/hacker_app
+    environment:
+      <<: *env_db
+      RAILS_ENV: development
+      POSTGRES_HOST: postgres
+      SECRET_KEY: 3bbd1b066a2349e51f198736788ca87e
+      REDIS_URL: redis://redis:6379
+    command: >
+      sh -c "
+        bundle install;
+        bundle exec sidekiq;
+      "
+    volumes:
+      - .:/opt/app
+    depends_on:
+      - app
+      - redis
+    networks:
+      - hacker
+
 volumes:
   postgres-data:
 
 networks:
   hacker:
-    driver: bridge

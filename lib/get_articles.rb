@@ -2,10 +2,10 @@ class GetArticles
 
   def self.init
     articles = []
-    # &hitsPerPage=200
-    response = HTTParty.get('http://hn.algolia.com/api/v1/search_by_date?query=ruby&hitsPerPage=200')
+    response = HTTParty.get('https://hn.algolia.com/api/v1/search_by_date?query=ruby&hitsPerPage=100')
     articles = response['hits'] if response.code.eql?(200)
 
+    agregados = 0
     articles.each do |article|
       next if Article.exists?(record_id: article['objectID'])
 
@@ -26,9 +26,10 @@ class GetArticles
       )
 
       record.save
+      agregados += 1
     end
 
-    "Se procesaron #{articles.length} registros!!!"
+    Sidekiq.logger.info "Se agregaron #{agregados} registros!!!"
   end
 
 end

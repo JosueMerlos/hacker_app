@@ -5,20 +5,40 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* Ruby version: 2.7.2
 
-* System dependencies
+* System dependencies: Redis, Postgres, Sidekiq, HTTParty
 
-* Configuration
+# Lo primero que se debe hacer es iniciar el docker-compose
 
-* Database creation
+`docker-compose up`
 
-* Database initialization
+# Para visualizar la lista de articulos dirigirse al endpoint de articles
 
-* How to run the test suite
+**GET** `localhost:3000/api/v1/articles`
+* acepta los parametros: [search, date, page, per_page]
+* search: Permite buscar en los titulos o story titulos el texto asignado
+* date: Permite los filtrar los registros con la fecha asignada
+* page y per_page: Sirven para la paginacion, per_page es el limite por pagina y page la pagina que deseamos ver
 
-* Services (job queues, cache servers, search engines, etc.)
+![](screenshots/index.png)
 
-* Deployment instructions
+# Para visualizar un articulo en especifico
 
-* ...
+**GET** `localhost:3000/api/v1/articles/28142765`
+
+![](screenshots/show.png)
+
+# Para modificar un articulo en especifico
+
+**PUT** `localhost:3000/api/v1/articles/28142765`
+* acepta los parametros: [title, url, comment_text, story_title, story_url]
+
+![](screenshots/update.png)
+
+# Para visualizar un articulo en especifico
+
+**DELETE** `localhost:3000/api/v1/articles/28142765`
+* Elimina el registro
+
+![](screenshots/delete.png)

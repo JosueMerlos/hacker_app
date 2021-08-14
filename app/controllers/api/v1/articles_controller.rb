@@ -1,7 +1,7 @@
 class Api::V1::ArticlesController < ApplicationController
   def index
     @articles = Article.search(index_params[:search])
-    from_date = Date.parse(index_params[:from_date]) rescue nil
+    from_date = Date.parse(index_params[:date]) rescue nil
     @articles = @articles.from_date(from_date) if from_date.present?
 
     render formats: :json
