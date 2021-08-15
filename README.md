@@ -9,7 +9,10 @@ Things you may want to cover:
 
 * System dependencies: Redis, Postgres, Sidekiq, HTTParty
 
-# Lo primero que se debe hacer es iniciar el docker-compose
+# La API se desplego en heroku y se puede acceder mediante el siguiente enlace
+https://thawing-crag-90830.herokuapp.com/api/v1/articles
+
+# Para levantar la aplicacion con docker lo primero que se debe hacer es iniciar el docker-compose
 
 `docker-compose up`
 
